@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return 'Bienvenue Yassine !'
+    return 'Bienvenue !'
 
 @app.route('/gaz', methods=['GET','POST'])
 def save_gazouille():
