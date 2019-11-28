@@ -5,6 +5,12 @@ import csv
 import setting
 from flask_sqlalchemy import SQLAlchemy
 
+from sqlalchemy import Column, Boolean, String, Integer, Numeric
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
 app = Flask(__name__)
 
 
@@ -22,18 +28,38 @@ app = Flask(__name__)
 #         host='127.0.0.1', port=tunnel.local_bind_port,
 #         database='hIpssi$HRDatabase',
 #     )
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://" + setting.CONST_MYUSERNAME_BD + ":" + setting.CONST_MYPASSWORD_BD +"@hIpssi.mysql.pythonanywhere-services.com/hIpssi$HRDatabase"
-db = SQLAlchemy(app)
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
+# Declaration de la classe de déclaration des modèles de BDD
+Base = declarative_base()
 
-db.session.add(User(username="Flask", email="example@example.com"))
-db.session.commit()
+engine = create_engine(setting.CONST_BD)
 
-users = User.query.all()
+session = sessionmaker()
+session.configure(bind=engine)
+s = session()
+
+
+
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://" + setting.CONST_MYUSERNAME_BD + ":" + setting.CONST_MYPASSWORD_BD +"@hIpssi.mysql.pythonanywhere-services.com/hIpssi$HRDatabase"
+# db = SQLAlchemy(app)
+
+class User(Base):
+    __tablename__ = "user"
+    id = Column(Integer, primary_key=True)
+    username = Column(String(16), unique=True, nullable=False)
+    email = Column(String(16), unique=True, nullable=False)
+
+Base.metadata.create_all(engine)
+
+print("---- print ----")
+for p in s.query(User).all():
+    print(p)
+
+# Insertion, équivalent de "INSERT INTO"
+user = User(username="Flask", email="example@example.com")
+s.add(user)
+s.commit()
+
 
 @app.route('/', methods=['GET','POST'])
 def home():
