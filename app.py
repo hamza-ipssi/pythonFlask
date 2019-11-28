@@ -60,11 +60,14 @@ def home():
 @app.route('/gaz', methods=['GET','POST'])
 def save_gazouille():
 	if request.method == 'POST':
-		tweet = Tweet(username=request.form['user-name'], tweetText=request.form['user-text'])
-		s.add(tweet)
-		s.commit()
-		print(request.form)
-		# dump_to_csv(request.form)
+		if(len(request.form['user-name'])> 16 or request.form['user-text'] >255 ):
+			tweet = Tweet(username=request.form['user-name'], tweetText=request.form['user-text'])
+			s.add(tweet)
+			s.commit()
+			print(request.form)
+			# dump_to_csv(request.form)
+		else:
+			return redirect(url_for('save_gazouille'))
 		return redirect(url_for('timeline'))
 		#return "OK"
 	if request.method == 'GET':
