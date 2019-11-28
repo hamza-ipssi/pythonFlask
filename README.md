@@ -48,5 +48,18 @@ Menace et Limite du projet FLGAZ :
 - aucune vérif de sécurité 
 - Interface à améliorer
 
+///////////////////////////////////////////////////////////////////////////////
+
+
+Projet :
+
+1.Mise en place de la base de donnée :
+	- Création de la base de donné (HRDatabase)
+	-  Connexion à la base de donné (dans le code python)
+	-initialisation de la base de donné (Tables, champs, …)
+2.  Limite du nombre caractère à 255
+3. Filtrer par utilisateur
+
+
 
 
