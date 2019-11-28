@@ -87,6 +87,13 @@ def timeline():
 		gaz.append(p)
 	return render_template("timeline.html", gaz = gaz)
 
+@app.route('/<nameUser>', methods=['GET'])
+def tweetByuser(nameUser):
+	gaz = []
+	for p in s.query(Tweet).filter_by(username= nameUser).all():
+		gaz.append(p)
+	return render_template("timeline.html", gaz = gaz)
+
 def parse_from_csv():
 	gaz = []
 	with open('./gazouilles.csv', 'r') as f:
