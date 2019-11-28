@@ -63,6 +63,13 @@ def save_gazouille():
 		if(len(request.form['user-name'])> 16 or request.form['user-text'] >255 ):
 			tweet = Tweet(username=request.form['user-name'], tweetText=request.form['user-text'])
 			s.add(tweet)
+			try:
+				s.commit()
+			except:
+				s.rollback()
+				raise
+			finally:
+				s.close()
 			s.commit()
 			print(request.form)
 			# dump_to_csv(request.form)
