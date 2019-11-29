@@ -58,7 +58,7 @@ def timeline():
 @app.route('/timeline/<nameUser>/',methods=['GET'])
 def tweetByUser(nameUser):
 	gaz = []
-	for p in s.query(Tweet).filter_by(username=nameUser).all():
+	for p in s.query(Tweet).filter_by(username=nameUser).limit(10).all():
 		gaz.append(p)
 	return render_template("timeline.html", gaz = gaz)
 
