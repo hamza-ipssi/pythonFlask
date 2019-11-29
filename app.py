@@ -30,7 +30,9 @@ def home():
 @app.route('/gaz/', methods=['GET', 'POST'])
 def save_gazouille():
     if request.method == 'POST':
-        if(len(request.form['user-name']) <= 16 and len(request.form['user-text']) <= 255 and request.form['user-text'] != 'barre'):
+        if(len(request.form['user-name']) > 16 or len(request.form['user-text']) > 255 or 'barre' in request.form['user-text'] or 'barre' in request.form['user-name']):
+            return redirect(url_for('save_gazouille'))
+        else:
             tweet = Tweet(username=request.form['user-name'], tweetText=request.form['user-text'])
             s.add(tweet)
             try:
@@ -42,8 +44,6 @@ def save_gazouille():
                 s.close()
             s.commit()
             print(request.form)
-        else:
-            return redirect(url_for('save_gazouille'))
         return redirect(url_for('timeline'))
         #return "OK"
     if request.method == 'GET':
@@ -52,7 +52,9 @@ def save_gazouille():
 @app.route('/timeline/', methods=['GET'])
 def timeline():
     gaz = []
+    barre = 'barre'
     for p in s.query(Tweet).order_by(desc(Tweet.id)).limit(20).all():
+
         gaz.append(p)
     return render_template("timeline.html", gaz=gaz)
 
