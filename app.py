@@ -26,7 +26,7 @@ def home():
 	if request.method == 'POST':
 		return redirect(url_for('save_gazouille'))
 
-@app.route('/gaz',methods=['GET','POST'])
+@app.route('/gaz/',methods=['GET','POST'])
 def save_gazouille():
 	if request.method == 'POST':
 		if(len(request.form['user-name'])<= 16 and len(request.form['user-text']) <= 255 ):
@@ -48,7 +48,7 @@ def save_gazouille():
 	if request.method == 'GET':
 		return render_template('formulaire.html')
 
-@app.route('/timeline',methods=['GET'])
+@app.route('/timeline/',methods=['GET'])
 def timeline():
 	gaz = []
 	for p in s.query(Tweet).limit(20).all():
