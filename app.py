@@ -51,7 +51,7 @@ def save_gazouille():
 @app.route('/timeline',methods=['GET'])
 def timeline():
 	gaz = []
-	for p in s.query(Tweet).all():
+	for p in s.query(Tweet).limit(10).all():
 		gaz.append(p)
 	return render_template("timeline.html", gaz = gaz)
 
