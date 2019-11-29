@@ -61,3 +61,10 @@ def tweetByUser(nameUser):
 	for p in s.query(Tweet).filter_by(username=nameUser).all():
 		gaz.append(p)
 	return render_template("timeline.html", gaz = gaz)
+
+@app.after_request
+def add_header(response):
+    header = response.headers
+    response.cache_control.max_age = 300
+    header['Access-Control-Allow-Origin'] = '*'
+    return response
