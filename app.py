@@ -30,7 +30,7 @@ def home():
 @app.route('/gaz/', methods=['GET', 'POST'])
 def save_gazouille():
     if request.method == 'POST':
-        if(len(request.form['user-name']) <= 16 and len(request.form['user-text']) <= 255):
+        if(len(request.form['user-name']) <= 16 and len(request.form['user-text']) <= 255 and request.form['user-text'] != 'barre'):
             tweet = Tweet(username=request.form['user-name'], tweetText=request.form['user-text'])
             s.add(tweet)
             try:
