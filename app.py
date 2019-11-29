@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for
 from dataModels import User, Tweet
 from config import getEngine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import desc
 
 app = Flask(__name__)
 
@@ -16,7 +17,7 @@ s = session()
 # Insertion, équivalent de "INSERT INTO"
 # user = User(username="Flask", email="example@example.com")
 # s.add(user)
-# s.commit()    
+# s.commit()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -51,14 +52,14 @@ def save_gazouille():
 @app.route('/timeline/', methods=['GET'])
 def timeline():
     gaz = []
-    for p in s.query(Tweet).limit(20).all():
+    for p in s.query(Tweet).order_by(desc(Tweet.id)).limit(20).all():
         gaz.append(p)
     return render_template("timeline.html", gaz=gaz)
 
 @app.route('/timeline/<nameUser>/', methods=['GET'])
 def tweetByUser(nameUser):
     gaz = []
-    for p in s.query(Tweet).filter_by(username=nameUser).limit(20).all():
+    for p in s.query(Tweet).filter_by(username=nameUser).order_by(desc(Tweet.id)).limit(20).all():
         gaz.append(p)
     return render_template("timeline.html", gaz=gaz)
 
