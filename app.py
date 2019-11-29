@@ -66,5 +66,8 @@ def tweetByUser(nameUser):
 def add_header(response):
     header = response.headers
     response.cache_control.max_age = 300
-    header['Access-Control-Allow-Origin'] = '*'
+    header['Access-Control-Allow-Origin'] = [
+        '195.154.176.62',
+        '80.15.154.187'
+    ]
     return response
